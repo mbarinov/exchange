@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {accountsActions} from 'ducks/accounts'
+import {ratesActions} from 'ducks/rates'
 
 import logo from './logo.svg';
 import './App.css';
@@ -15,8 +15,8 @@ function App(props) {
 					Edit <code>src/App.js</code> and save to reload.
 				</p>
 				<a href="#" className="App-link" onClick={() => {
-					console.log('fetchAccounts');
-					props.fetchAccounts();
+					console.log('fetchLastRates');
+					props.fetchLastRates();
 				}}>fetch</a>
 				<a
 					className="App-link"
@@ -33,4 +33,4 @@ function App(props) {
 
 const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps, accountsActions)(App);
+export default connect(mapStateToProps, ratesActions)(App);
