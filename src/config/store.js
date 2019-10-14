@@ -7,7 +7,7 @@ import {
 import thunk from 'redux-thunk'
 import {createLogger} from 'redux-logger';
 
-import { accounts } from '../ducks/index'
+import { accounts } from '../modules/index'
 
 const logger = createLogger({
 	collapsed: true,
@@ -24,8 +24,8 @@ export default () => {
 
 	if (module.hot) {
 		module.hot
-			.accept('../ducks', () => {
-				const nextRootReducer = require('../ducks/index');
+			.accept('../modules', () => {
+				const nextRootReducer = require('../modules/index');
 				store.replaceReducer(nextRootReducer);
 			});
 	}
