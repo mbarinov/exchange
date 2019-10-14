@@ -1,5 +1,7 @@
-import { createType } from '../../utils';
+import { createType } from 'utils';
 
-const prefix = 'note/';
+const prefix = 'accounts';
 
-export const ADD_FUNDS = createType(prefix, 'ADD_FUNDS');
+export const FETCH_ACCOUNTS = createType(prefix, 'FETCH_ACCOUNTS');
+export const FETCH_ACCOUNTS_SUCCESS = createType(prefix, 'FETCH_ACCOUNTS_SUCCESS');
+export const FETCH_ACCOUNTS_FAIL = createType(prefix, 'FETCH_ACCOUNTS_FAIL');

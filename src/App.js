@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {accountsActions} from './ducks/accounts'
+import {accountsActions} from 'ducks/accounts'
 
 import logo from './logo.svg';
 import './App.css';
@@ -14,6 +14,10 @@ function App(props) {
 				<p>
 					Edit <code>src/App.js</code> and save to reload.
 				</p>
+				<a href="#" className="App-link" onClick={() => {
+					console.log('fetchAccounts');
+					props.fetchAccounts();
+				}}>fetch</a>
 				<a
 					className="App-link"
 					href="https://reactjs.org"
