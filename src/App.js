@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {ratesActions} from 'src/modules/rates'
+import {ratesActions} from 'modules/rates'
 
 import logo from './logo.svg';
 import './App.css';
