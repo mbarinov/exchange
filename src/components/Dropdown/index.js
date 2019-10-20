@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useClickOutside } from 'utils/use-click-outside';
-import useKey from 'use-key-hook';
 
 import { DropdownContainer, Divider } from './styles';
 
@@ -38,20 +37,22 @@ export default function Dropdown({
     };
   }, [onClose]);
 
-  /**
-   * @todo написать свою реализацию
-   */
-  const ESC = 27;
-  useKey(
-    () => {
-      setVisible(false);
-      onClose();
-    },
-    {
-      detectKeys: [ESC],
-    },
-    [isVisible],
-  );
+  useEffect(() => {
+    const handler = e => {
+      if (e.keyCode === 27 && isVisible) {
+        setVisible(false);
+        onClose();
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('keydown', handler);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, [isVisible, onClose]);
 
   useClickOutside({
     containerRefs: useMemo(() => [containerRef], []),
