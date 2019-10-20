@@ -1,9 +1,9 @@
-import expect from 'expect';
 import accountReducer from './reducers';
 import {
   FETCH_ACCOUNTS,
   FETCH_ACCOUNTS_SUCCESS,
   FETCH_ACCOUNTS_FAIL,
+  EXCHANGE,
 } from './types';
 
 describe('Accounts reducer', function() {
@@ -57,5 +57,38 @@ describe('Accounts reducer', function() {
       hasError: true,
       list: [],
     });
+  });
+
+  it('should exchange currencies', () => {
+    const state = {
+      ...initialState,
+      list: [
+        {
+          id: 1,
+          symbol: '$',
+          ticker: 'USD',
+          amount: 1034.23,
+        },
+        {
+          id: 2,
+          symbol: '£',
+          ticker: 'GBP',
+          amount: 420.98,
+        },
+      ],
+    };
+
+    const nextState = accountReducer(state, {
+      type: EXCHANGE,
+      payload: {
+        fromAccountId: 1,
+        toAccountId: 2,
+        amount: 200,
+        rate: 0.795108,
+      },
+    });
+
+    expect(nextState.list[0].amount).toBe(834.23);
+    expect(nextState.list[1].amount).toBe(580.0016);
   });
 });
