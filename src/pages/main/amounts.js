@@ -90,11 +90,11 @@ function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
   }, [fromCurrency, prevFromCurrency, toCurrency, prevToCurrency]);
 
   return (
-    <AmountsWrapper>
+    <AmountsWrapper data-testid="amounts-wrapper">
       <Title>You give:</Title>
       <Title>You'll get:</Title>
       <Input
-        placeholder="Enter amount giveAmount"
+        placeholder={`Enter amount ${fromCurrency}`}
         value={giveAmount}
         onChange={e => {
           setGiveAmount(e);
@@ -113,7 +113,7 @@ function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
       />
 
       <Input
-        placeholder="Enter amount getAmount"
+        placeholder={`Enter amount ${toCurrency}`}
         value={getAmount}
         onChange={e => {
           setGetAmount(e);

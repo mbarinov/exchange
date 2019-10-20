@@ -14,11 +14,7 @@ export default () => {
       accounts,
       rates,
     }),
-    compose(
-      applyMiddleware(thunk, logger),
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__(),
-    ),
+    compose(applyMiddleware(thunk, logger)),
   );
 
   if (module.hot) {
