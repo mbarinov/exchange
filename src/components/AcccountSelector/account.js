@@ -12,8 +12,8 @@ export function Account({ currency, total, isActive }) {
 
   return (
     <AccountWrapper isActive={isActive}>
-      <Info>
-        {amount}
+      <Info data-testid="currency-value">
+        <span>{amount}</span>
         <Trifle>.{trifle}</Trifle>
       </Info>
     </AccountWrapper>
