@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import AccountsSelector from 'components/AcccountSelector';
+import { AccountsSelector } from 'components/AcccountSelector';
 import { Button } from 'components/Button';
 
 import { AmountsContainer } from './amounts';
@@ -33,7 +33,7 @@ export function Main({ accounts, exchange }) {
     <div>
       <AccountsWrapper>
         <Title>From</Title>
-        <Title></Title>
+        <Title />
         <Title>To</Title>
 
         <AccountsSelector

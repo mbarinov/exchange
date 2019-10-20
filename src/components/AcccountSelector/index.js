@@ -7,7 +7,7 @@ import Dropdown from 'components/Dropdown';
 
 import { Wrapper, Controls, SelectAccount } from './styles';
 
-function AccountsSelector({ activeAccountId, accounts, onChange }) {
+export function AccountsSelector({ activeAccountId, accounts, onChange }) {
   const getAccountById = useCallback(
     id => {
       return accounts.find(i => i.id === id);
@@ -37,7 +37,9 @@ function AccountsSelector({ activeAccountId, accounts, onChange }) {
         }}
       >
         {!activeAccount && (
-          <SelectAccount>Click to select an Acccount</SelectAccount>
+          <SelectAccount data-testid="placeholder">
+            Click to select an Account
+          </SelectAccount>
         )}
         {activeAccount && (
           <Account
@@ -82,5 +84,3 @@ AccountsSelector.propTypes = {
 AccountsSelector.defaultProps = {
   activeAccountId: null,
 };
-
-export default AccountsSelector;
