@@ -1,36 +1,63 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-import {ratesActions} from 'modules/rates'
+import { Main } from 'pages/main';
 
-import logo from './logo.svg';
-import './App.css';
+import { accountsActions } from 'modules/accounts';
+import { ratesActions } from 'modules/rates';
 
-function App(props) {
-	return (
-		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo"/>
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a href="#" className="App-link" onClick={() => {
-					console.log('fetchLastRates');
-					props.fetchLastRates();
-				}}>fetch</a>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
-		</div>
-	);
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+
+  background-color: rgba(var(--b3f, 250, 250, 250), 1);
+
+  padding: 60px;
+  & > * {
+    width: 800px;
+  }
+`;
+
+function App({
+  isLoading,
+  accounts,
+  rates,
+  fetchAccounts,
+  fetchLastRates,
+  mockRates,
+  exchange,
+}) {
+  useEffect(() => {
+    fetchAccounts();
+    setInterval(() => {
+      mockRates();
+    }, 3000);
+  }, [fetchAccounts, mockRates]);
+
+  useEffect(() => {
+    fetchLastRates();
+  }, [fetchLastRates]);
+
+  if (isLoading) return null;
+
+  return (
+    <Wrapper>
+      <Main accounts={accounts} rates={rates} exchange={exchange} />
+    </Wrapper>
+  );
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = state => {
+  return {
+    accounts: state.accounts.list,
+    rates: state.rates.rates,
+    isLoading: state.accounts.isLoading,
+  };
+};
 
-export default connect(mapStateToProps, ratesActions)(App);
+export default connect(
+  mapStateToProps,
+  { ...accountsActions, ...ratesActions },
+)(App);
