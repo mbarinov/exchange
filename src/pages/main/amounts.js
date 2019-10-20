@@ -56,7 +56,12 @@ function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
    * toggle счетов usd/gbp -> gbp/usd
    */
   useEffect(() => {
-    if (fromCurrency === prevToCurrency && toCurrency === prevFromCurrency) {
+    if (
+      fromCurrency &&
+      toCurrency &&
+      fromCurrency === prevToCurrency &&
+      toCurrency === prevFromCurrency
+    ) {
       setGiveAmount(getAmount);
       setGetAmount(giveAmount);
     }

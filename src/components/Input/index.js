@@ -19,6 +19,7 @@ export function Input({
   return (
     <Wrapper>
       <Placeholder
+        data-testid="placeholder"
         onClick={() => {
           inputRef.current.focus();
         }}
@@ -27,6 +28,7 @@ export function Input({
         {placeholder}
       </Placeholder>
       <StyledInput
+        data-testid="input"
         ref={inputRef}
         value={inputValue}
         onChange={e => {
@@ -38,15 +40,7 @@ export function Input({
             return;
           }
 
-          const number = function getValidNumber(input) {
-            const replacedCommas = String(input)
-              .replace(',', '.')
-              .replace(/ /g, '');
-
-            return Number(replacedCommas);
-          };
-
-          if (Number.isNaN(number)) return;
+          if (Number.isNaN(Number(rawValue))) return;
 
           setInputValue(rawValue);
           onChange(rawValue);
