@@ -63,6 +63,14 @@ describe('Input', function() {
       expect(element.getByTestId('input').value).toEqual('100');
     });
 
+    it('onChange empty string', () => {
+      fireEvent.change(element.getByTestId('input'), {
+        target: { value: '' },
+      });
+
+      expect(element.getByTestId('input').value).toEqual('');
+    });
+
     it('non-digit input doesn`t invoke onChange', () => {
       fireEvent.change(element.getByTestId('input'), {
         target: { value: '10,123' },
