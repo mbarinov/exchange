@@ -8,7 +8,7 @@ describe('Amounts', function() {
   test('Valid render', () => {
     const { getAllByText } = render(<Amounts />);
 
-    expect(getAllByText(/Enter amount /).length).toBe(2);
+    expect(getAllByText(/Enter amount/).length).toBe(2);
   });
 
   test('Render with valid props', () => {
