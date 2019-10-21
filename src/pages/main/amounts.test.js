@@ -40,7 +40,6 @@ describe('Amounts', function() {
     let toInput;
     let onChange;
     let container;
-    let rerender;
 
     beforeAll(() => {
       onChange = jest.fn();
@@ -140,6 +139,39 @@ describe('Amounts', function() {
       fireEvent.change(fromInput, { target: { value: 'aad' } });
 
       expect(fromInput.value).toBe('');
+    });
+
+    test('set values when rate is undefined', () => {
+      onChange = jest.fn();
+      const { container } = render(
+        <Amounts fromCurrency="USD" toCurrency="GBP" onChange={onChange} />,
+      );
+
+      fromInput = container.querySelectorAll('input')[0];
+      toInput = container.querySelectorAll('input')[1];
+
+      fireEvent.change(fromInput, { target: { value: 100 } });
+
+      expect(toInput.value).toBe('');
+    });
+
+    test('from input changes automatically when user edits to input', () => {
+      onChange = jest.fn();
+      const { container } = render(
+        <Amounts
+          fromCurrency="USD"
+          toCurrency="GBP"
+          rate="0.795108"
+          onChange={onChange}
+        />,
+      );
+
+      fromInput = container.querySelectorAll('input')[0];
+      toInput = container.querySelectorAll('input')[1];
+
+      fireEvent.change(toInput, { target: { value: 100 } });
+
+      expect(fromInput.value).toBe('125.77');
     });
   });
 });
