@@ -8,7 +8,7 @@ import { usePrevious } from 'utils/use-previous';
 
 import { AmountsWrapper, Title } from './styled';
 
-function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
+export function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
   const [giveAmount, setGiveAmount] = useState('');
   const [getAmount, setGetAmount] = useState('');
 
@@ -26,9 +26,7 @@ function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
       }
 
       setGetAmount(value);
-    }
-
-    if (rate && isGetInputFocused) {
+    } else if (rate) {
       let value = getAmount / rate;
 
       if (getSymbolsAfterDot(value) >= 2) {

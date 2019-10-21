@@ -1,109 +1,145 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { fireEvent, render, waitForDomChange } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
-import { AmountsContainer } from './amounts';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
+import { Amounts } from './amounts';
 
 describe('Amounts', function() {
-  let store;
+  test('Valid render', () => {
+    const { getAllByText } = render(<Amounts />);
 
-  beforeEach(() => {
-    store = mockStore({
-      rates: {
-        isLoading: false,
-        hasError: false,
-        timestamp: null,
-        base: null,
-        rates: {
-          GBP: 0.795108,
-          RUB: 64.281,
-          EUR: 0.906567,
-        },
-      },
-    });
-  });
-
-  test('Empty render', () => {
-    const { getAllByText } = render(
-      <Provider store={store}>
-        <AmountsContainer />
-      </Provider>,
-    );
-
-    expect(getAllByText(/Enter amount/).length).toBe(2);
+    expect(getAllByText(/Enter amount /).length).toBe(2);
   });
 
   test('Render with valid props', () => {
     const { getAllByText } = render(
-      <Provider store={store}>
-        <AmountsContainer fromCurrency="USD" toCurrency="GBP" />
-      </Provider>,
+      <Amounts fromCurrency="USD" toCurrency="GBP" rate="0.795108" />,
     );
 
-    expect(getAllByText(/Enter amount/).length).toBe(2);
-
-    getAllByText(/Enter amount/)[0].innerHTML.endsWith('USD');
-    getAllByText(/Enter amount/)[1].innerHTML.endsWith('GBP');
+    expect(getAllByText(/Enter amount/)[0].innerHTML.endsWith('USD')).toBe(
+      true,
+    );
+    expect(getAllByText(/Enter amount/)[1].innerHTML.endsWith('GBP')).toBe(
+      true,
+    );
   });
 
-  test('Toggle currencies', () => {
-    const { getAllByText, rerender } = render(
-      <Provider store={store}>
-        <AmountsContainer fromCurrency="USD" toCurrency="GBP" />
-      </Provider>,
-    );
-
-    rerender(
-      <Provider store={store}>
-        <AmountsContainer fromCurrency="GBP" toCurrency="USD" />
-      </Provider>,
-    );
-
-    getAllByText(/Enter amount/)[0].innerHTML.endsWith('GBP');
-    getAllByText(/Enter amount/)[1].innerHTML.endsWith('USD');
-  });
-
-  test('Convert currencies', () => {
-    const onChange = jest.fn();
+  test('Render with valid props when rate is undefined', () => {
     const { container } = render(
-      <Provider store={store}>
-        <AmountsContainer
+      <Amounts fromCurrency="USD" toCurrency="GBP" />,
+    );
+    const fromInput = container.querySelectorAll('input')[0];
+    const toInput = container.querySelectorAll('input')[1];
+
+    expect(fromInput.value).toBe('');
+    expect(toInput.value).toBe('');
+  });
+
+  describe('Rates', () => {
+    let fromInput;
+    let toInput;
+    let onChange;
+    let container;
+    let rerender;
+
+    beforeAll(() => {
+      onChange = jest.fn();
+      const process = render(
+        <Amounts
           fromCurrency="USD"
           toCurrency="GBP"
           onChange={onChange}
-        />
-      </Provider>,
-    );
+          rate="0.795108"
+        />,
+      );
 
-    const fromInput = container.querySelectorAll('input')[0];
-    fireEvent.change(fromInput, { target: { value: 1000 } });
-    const toInput = container.querySelectorAll('input')[1];
+      container = process.container;
+      rerender = process.rerender;
 
-    expect(toInput.value).toEqual('795.11');
-  });
+      fromInput = container.querySelectorAll('input')[0];
+      toInput = container.querySelectorAll('input')[1];
+    });
 
-  test('toCurrency is editable', () => {
-    const onChange = jest.fn();
-    const { container } = render(
-      <Provider store={store}>
-        <AmountsContainer
+    test('Convert rates automatically', () => {
+      fireEvent.change(fromInput, { target: { value: 1000 } });
+
+      expect(toInput.value).toEqual('795.11');
+      fireEvent.change(fromInput, { target: { value: 2000 } });
+
+      expect(toInput.value).toEqual('1590.22');
+
+      expect(onChange.mock.calls.length).toBe(2);
+    });
+
+    test('Update rates', () => {
+      const { container, rerender } = render(
+        <Amounts
           fromCurrency="USD"
           toCurrency="GBP"
           onChange={onChange}
-        />
-      </Provider>,
-    );
+          rate="0.795108"
+        />,
+      );
 
-    const fromInput = container.querySelectorAll('input')[0];
-    const toInput = container.querySelectorAll('input')[1];
-    fireEvent.change(toInput, { target: { value: 1000 } });
+      fromInput = container.querySelectorAll('input')[0];
+      toInput = container.querySelectorAll('input')[1];
 
-    expect(fromInput.value).toEqual('1257.69');
+      fireEvent.change(fromInput, { target: { value: 1000 } });
+      expect(toInput.value).toEqual('795.11');
+
+      rerender(
+        <Amounts
+          fromCurrency="USD"
+          toCurrency="GBP"
+          onChange={onChange}
+          rate="0.8951"
+        />,
+      );
+
+      expect(toInput.value).toBe('895.1');
+    });
+
+    test('Reset values onToggle accounts', () => {
+      const { container, rerender } = render(
+        <Amounts
+          fromCurrency="USD"
+          toCurrency="GBP"
+          onChange={onChange}
+          rate="0.795108"
+        />,
+      );
+
+      fromInput = container.querySelectorAll('input')[0];
+      toInput = container.querySelectorAll('input')[1];
+
+      fireEvent.change(fromInput, { target: { value: 1000 } });
+
+      expect(fromInput.value).toBe('1000');
+      expect(toInput.value).toBe('795.11');
+
+      rerender(<Amounts onChange={onChange} rate="0.795108" />);
+
+      expect(fromInput.value).toBe('0');
+      expect(toInput.value).toBe('');
+    });
+
+    test('onChange validation', () => {
+      onChange = jest.fn();
+      const { container } = render(
+        <Amounts
+          fromCurrency="USD"
+          toCurrency="GBP"
+          onChange={onChange}
+          rate="0.795108"
+        />,
+      );
+
+      fromInput = container.querySelectorAll('input')[0];
+      toInput = container.querySelectorAll('input')[1];
+
+      fireEvent.change(fromInput, { target: { value: 'aad' } });
+
+      expect(fromInput.value).toBe('');
+    });
   });
 });
