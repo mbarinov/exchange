@@ -5,7 +5,7 @@ import { Button } from 'components/Button';
 
 import { AmountsContainer } from './amounts';
 import { CurrentRate } from './rate';
-import { AccountsWrapper, Title, Controls } from './styled';
+import { AccountsWrapper, Title, Controls, ButtonWrapper } from './styled';
 
 export function Main({ accounts, exchange }) {
   const [fromAccountId, setFromAccountId] = useState();
@@ -83,18 +83,20 @@ export function Main({ accounts, exchange }) {
         toCurrency={toAccount && toAccount.ticker}
       />
 
-      <Button
-        disabled={isBtnDisabled}
-        onClick={() => {
-          exchange({
-            fromAccountId,
-            toAccountId,
-            amount: fromAmount,
-          });
-        }}
-      >
-        Exchange
-      </Button>
+      <ButtonWrapper>
+        <Button
+          disabled={isBtnDisabled}
+          onClick={() => {
+            exchange({
+              fromAccountId,
+              toAccountId,
+              amount: fromAmount,
+            });
+          }}
+        >
+          Exchange
+        </Button>
+      </ButtonWrapper>
     </div>
   );
 }

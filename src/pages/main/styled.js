@@ -41,3 +41,10 @@ export const RateWrapper = styled.div`
 export const RateHint = styled.small`
   color: #9299a2;
 `;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+
+  margin-top: 40px;
+`;
