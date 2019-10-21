@@ -1,21 +1,14 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import fetchMock from 'fetch-mock';
 import expect from 'expect';
 
-import {
-  FETCH_ACCOUNTS,
-  FETCH_ACCOUNTS_SUCCESS,
-  FETCH_ACCOUNTS_FAIL,
-} from './types';
+import { FETCH_ACCOUNTS, FETCH_ACCOUNTS_SUCCESS } from './types';
 import { fetchAccounts } from './actions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Accounts actions', function() {
-  afterEach(() => fetchMock.restore());
-
   const body = [
     {
       id: 1,
@@ -29,14 +22,21 @@ describe('Accounts actions', function() {
       ticker: 'GBP',
       amount: 420.98,
     },
+    {
+      id: 3,
+      symbol: '€',
+      ticker: 'EUR',
+      amount: 276.01,
+    },
+    {
+      id: 4,
+      symbol: '₽',
+      ticker: 'RUB',
+      amount: 41089,
+    },
   ];
 
   it('should fetching accounts', () => {
-    fetchMock.getOnce('http://localhost:4000/accounts', {
-      body,
-      headers: { 'content-type': 'application/json' },
-    });
-
     const expectedActions = [
       { type: FETCH_ACCOUNTS },
       {
@@ -46,21 +46,6 @@ describe('Accounts actions', function() {
           data: body,
         },
       },
-    ];
-
-    const store = mockStore({ isLoading: false, hasError: false, list: [] });
-
-    return store.dispatch(fetchAccounts()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('should fail', function() {
-    fetchMock.getOnce('http://localhost:4000/accounts', 500);
-
-    const expectedActions = [
-      { type: FETCH_ACCOUNTS },
-      { type: FETCH_ACCOUNTS_FAIL },
     ];
 
     const store = mockStore({ isLoading: false, hasError: false, list: [] });

@@ -31,9 +31,6 @@ function App({
 }) {
   useEffect(() => {
     fetchAccounts();
-    setInterval(() => {
-      mockRates();
-    }, 3000);
   }, [fetchAccounts, mockRates]);
 
   useEffect(() => {
