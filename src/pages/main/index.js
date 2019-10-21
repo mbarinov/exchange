@@ -11,6 +11,7 @@ import {
   Controls,
   ButtonWrapper,
   Hello,
+  Link,
 } from './styled';
 
 export function Main({ accounts, exchange }) {
@@ -38,6 +39,9 @@ export function Main({ accounts, exchange }) {
   return (
     <div>
       <Hello>🏦 Exchange Widget 🏦</Hello>
+      <Link target="_blank" href="https://github.com/mbarinov/exchange">
+        Github repo
+      </Link>
       <AccountsWrapper>
         <Title>From</Title>
         <Title />

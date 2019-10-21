@@ -57,3 +57,13 @@ export const Hello = styled.div`
 
   font-size: 40px;
 `;
+
+export const Link = styled.a`
+  display: block;
+  text-align: center;
+  margin-bottom: 40px;
+
+  &:hover {
+    color: rgb(235, 0, 141);
+  }
+`;
