@@ -9,6 +9,7 @@
     "expect": "^24.9.0",
     "express": "^4.17.1",
     "fetch-mock": "^7.5.1",
+    "gh-pages": "^2.1.1",
     "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
@@ -25,11 +26,14 @@
     "styled-components": "^4.4.0",
     "use-key-hook": "^1.5.0"
   },
+  "homepage": "http://www.maxbarinov.com/exchange",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
