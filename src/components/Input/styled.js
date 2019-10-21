@@ -21,6 +21,8 @@ export const Placeholder = styled.small`
   &.empty {
     margin-top: 17px;
     font-size: 20px;
+    width: calc(100% - 24px);
+    height: calc(100% - 17px);
   }
 `;
 

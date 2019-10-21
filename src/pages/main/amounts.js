@@ -92,7 +92,7 @@ export function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
       <Title>You give:</Title>
       <Title>You'll get:</Title>
       <Input
-        placeholder={`Enter amount ${fromCurrency}`}
+        placeholder={`Enter amount ${fromCurrency || ''}`}
         value={giveAmount}
         onChange={e => {
           setGiveAmount(e);
@@ -111,7 +111,7 @@ export function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
       />
 
       <Input
-        placeholder={`Enter amount ${toCurrency}`}
+        placeholder={`Enter amount ${toCurrency || ''}`}
         value={getAmount}
         onChange={e => {
           setGetAmount(e);
