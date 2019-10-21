@@ -35,6 +35,14 @@ function App({
 
   useEffect(() => {
     fetchLastRates();
+
+    const interval = setInterval(() => {
+      fetchLastRates();
+    }, 10 * 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [fetchLastRates]);
 
   if (isLoading) return null;
