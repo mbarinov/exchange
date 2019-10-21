@@ -53,7 +53,6 @@ describe('Amounts', function() {
       );
 
       container = process.container;
-      rerender = process.rerender;
 
       fromInput = container.querySelectorAll('input')[0];
       toInput = container.querySelectorAll('input')[1];
