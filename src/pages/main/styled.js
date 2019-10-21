@@ -48,3 +48,12 @@ export const ButtonWrapper = styled.div`
 
   margin-top: 40px;
 `;
+
+export const Hello = styled.div`
+  margin: 28px 0 48px 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  font-size: 40px;
+`;

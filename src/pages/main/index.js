@@ -5,7 +5,13 @@ import { Button } from 'components/Button';
 
 import { AmountsContainer } from './amounts';
 import { CurrentRate } from './rate';
-import { AccountsWrapper, Title, Controls, ButtonWrapper } from './styled';
+import {
+  AccountsWrapper,
+  Title,
+  Controls,
+  ButtonWrapper,
+  Hello,
+} from './styled';
 
 export function Main({ accounts, exchange }) {
   const [fromAccountId, setFromAccountId] = useState();
@@ -31,6 +37,7 @@ export function Main({ accounts, exchange }) {
 
   return (
     <div>
+      <Hello>🏦 Exchange Widget 🏦</Hello>
       <AccountsWrapper>
         <Title>From</Title>
         <Title />
