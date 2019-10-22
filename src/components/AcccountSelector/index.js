@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { number, instanceOf, func } from 'prop-types';
+import { number, string, arrayOf, func, shape } from 'prop-types';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
 import { Account } from './account';
@@ -77,7 +77,13 @@ export function AccountsSelector({ activeAccountId, accounts, onChange }) {
 
 AccountsSelector.propTypes = {
   activeAccountId: number,
-  accounts: instanceOf(Array).isRequired,
+  accounts: arrayOf(
+    shape({
+      id: number.isRequired,
+      ticker: string.isRequired,
+      amount: number.isRequired,
+    }),
+  ).isRequired,
   onChange: func.isRequired,
 };
 

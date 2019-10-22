@@ -2,6 +2,16 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useClickOutside } from 'utils/use-click-outside';
 
 import { DropdownContainer, Divider } from './styles';
+import {
+  arrayOf,
+  bool,
+  oneOfType,
+  instanceOf,
+  shape,
+  func,
+  string,
+  number,
+} from 'prop-types';
 
 export default function Dropdown({
   visible,
@@ -86,3 +96,22 @@ export default function Dropdown({
     </DropdownContainer>
   );
 }
+
+Dropdown.propTypes = {
+  visible: bool,
+  options: arrayOf(shape({})),
+  onSelect: func,
+  onClose: func,
+  renderKey: oneOfType([string, number]),
+  renderItem: func.isRequired,
+  selectorRef: oneOfType([func, shape({ current: instanceOf(Element) })])
+    .isRequired,
+};
+
+Dropdown.defaultProps = {
+  visible: false,
+  options: [],
+  renderKey: 'id',
+  onSelect: () => {},
+  onClose: () => {},
+};
