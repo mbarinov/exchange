@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { string, func } from 'prop-types';
 
 import { ratesSelectors } from 'modules/rates';
 import { Input } from 'components/Input';
@@ -137,6 +138,20 @@ export function Amounts({ fromCurrency, toCurrency, rate, onChange }) {
     </AmountsWrapper>
   );
 }
+
+Amounts.propTypes = {
+  fromCurrency: string,
+  toCurrency: string,
+  rate: string,
+  onChange: func,
+};
+
+Amounts.defaultProps = {
+  fromCurrency: '',
+  toCurrency: '',
+  rate: null,
+  onChange: () => {},
+};
 
 export const AmountsContainer = connect((state, ownProps) => {
   return ratesSelectors.getCurrentRate(state)(

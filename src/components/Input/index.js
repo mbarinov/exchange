@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Wrapper, Placeholder, StyledInput } from './styled';
+import { oneOfType, string, number, func } from 'prop-types';
 
 export function Input({
   value,
@@ -57,3 +58,18 @@ export function Input({
     </Wrapper>
   );
 }
+
+Input.propTypes = {
+  value: oneOfType([string, number]),
+  placeholder: string,
+  onChange: func.isRequired,
+  onFocus: func,
+  onBlur: func,
+};
+
+Input.defaultProps = {
+  value: '',
+  placeholder: '',
+  onFocus: () => {},
+  onBlur: () => {},
+};

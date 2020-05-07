@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { number, string, arrayOf, shape, func } from 'prop-types';
 
 import { AccountsSelector } from 'components/AcccountSelector';
 import { Button } from 'components/Button';
@@ -111,3 +112,14 @@ export function Main({ accounts, exchange }) {
     </div>
   );
 }
+
+Main.propTypes = {
+  accounts: arrayOf(
+    shape({
+      id: number.isRequired,
+      ticker: string.isRequired,
+      amount: number.isRequired,
+    }),
+  ),
+  exchange: func.isRequired,
+};
