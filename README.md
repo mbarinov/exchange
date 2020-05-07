@@ -1,1 +1,1 @@
-[Demo page](http://www.maxbarinov.com/exchange/)
+[Demo page](https://exchange.maxbarinov.com/)
